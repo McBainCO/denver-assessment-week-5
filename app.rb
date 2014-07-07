@@ -21,7 +21,10 @@ class ContactsApp < Sinatra::Base
   end
 
   get "/" do
-    "Hello week 5"
+    if current_user
+      erb :signed_in, locals: {username: current_user}
+    else
+      erb :signed_out
   end
-
+end
 end
