@@ -23,8 +23,34 @@ class ContactsApp < Sinatra::Base
   get "/" do
     if current_user
       erb :signed_in, locals: {username: current_user}
+      flash[:notice]
     else
       erb :signed_out
+    end
   end
-end
+
+  get "/sign_in" do
+    erb :sign_in
+  end
+
+  post "/sign_in" do
+    @user_database.find_user(params)
+    flash[:notice] = "Welcome #{:username}"
+    redirect "/"
+  end
+
+
+private
+
+  def find_user(params)
+    @user_database.all.select{ |user|
+    user[:username] == params[:username] && user[:password] == params[:password]
+    }.first
+  end
+
+  def current_user
+    if session[:user_]
+  end
+
+
 end
